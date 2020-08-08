@@ -1,0 +1,18 @@
+<div class="comment-panel" style="padding: 13px">
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title> Comments </mat-panel-title>
+        </mat-expansion-panel-header>
+            <mat-card *ngFor="let comment of comments" style="margin-top:10px;">
+                <mat-card-content class="txt-l">
+                    <p> {{comment.content}}</p>
+                </mat-card-content>
+                <mat-card-content class="txt-r">
+                    <p> Author: {{comment.anonymous ? "anonymous" : comment.authorName}}</p>
+                </mat-card-content>
+            </mat-card>
+            <app-add-comment [movieId]=movieId (fetchEvent)="fetchComments()"></app-add-comment>
+    </mat-expansion-panel>
+</div>
+

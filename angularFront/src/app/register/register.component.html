@@ -1,0 +1,41 @@
+
+<div class="register-form">
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+        <mat-label for="username">Username </mat-label>
+            <input matInput formControlName="username" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hideP ? 'password' : 'text'" formControlName="password" required>
+            <button mat-icon-button matSuffix (click)="hideP = !hideP" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideP">
+            <mat-icon>{{hideP ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Confirm your password</mat-label>
+            <input matInput [type]="hideC ? 'password' : 'text'" formControlName="passwordConf" required>
+            <button mat-icon-button matSuffix (click)="hideC = !hideC" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideC">
+            <mat-icon>{{hideC ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label for="email"> Enter your email</mat-label>
+            <input matInput placeholder="pat@example.com" formControlName="email">
+            <mat-error *ngIf="f.email.invalid">{{getErrorEmail()}}</mat-error>
+        </mat-form-field>
+
+        <div>
+        <button matButton [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Register
+        </button>
+        </div>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        <a routerLink="/login" class="btn btn-link">Cancel</a>
+    </form>
+</div>
+  

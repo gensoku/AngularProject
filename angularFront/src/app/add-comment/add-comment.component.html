@@ -1,0 +1,29 @@
+<div class="add-component-form">
+    <form class="add-component-form" appearance="fill" [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="comment-username mg-t-20" *ngIf="currentUser">
+            <mat-label *ngIf="f.anonymous.value; else userBlock">Anonymous
+            </mat-label>
+            <input matInput disabled value="{{this.f.anonymous.value ? anonymous : currentUser.username}}">
+            <ng-template #userBlock>      
+                <mat-label>Username (disabled)</mat-label>
+            </ng-template>
+          </mat-form-field>
+
+          <section class="comment-checkbox-section">
+            <mat-checkbox class="comment-checkbox" formControlName="anonymous">Anonymous</mat-checkbox>
+          </section>
+
+        <mat-form-field class="comment-area">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput placeholder="Ex. It makes me feel..." formControlName="content"></textarea>
+          </mat-form-field>
+
+        <div>
+        <button matButton [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Add comment
+        </button>
+        </div>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+    </form>
+</div>

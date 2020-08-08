@@ -1,0 +1,23 @@
+
+<div class="container-home" style="padding: 13px;">
+        <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+          <mat-form-field appearance="fill">
+            <mat-label>Select a Genre </mat-label>
+            <mat-select formControlName="genre" name="food">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let genre of genres" [value]="genre">
+                {{genre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+            <div>
+                <button matButton class="btn btn-primary">
+                    Search
+                </button>
+            </div>
+        </form>
+    <app-movie [filters]="filters"></app-movie>
+</div>
+
