@@ -3,6 +3,7 @@ import { User } from '../models/User';
 import { Comment } from '../models/Comment';
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
+import createError from 'http-errors';
 
 interface MovieQuery {
     genre?: Object;
@@ -36,20 +37,21 @@ export const getMovieById = (req: Request, res: Response, next: NextFunction) =>
 
 export const postComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        Movie.findById(mongoose.Types.ObjectId(req.params.id)).exec().then((movies) => {
-            if (!movies)
-                throw new Error("not found");
-        User.findOne({ username : req.body.username }).exec().then((_user) => {
+
+        const movie = Movie.findById(mongoose.Types.ObjectId(req.params.id)).exec();
+        const user = User.findOne({ username : req.body.username }).exec();
+        await Promise.all([movie, user]).then((result) => {
+            if (!result[1]) { return next(createError(401, "Invalid username", {expose: true})); }
             let { content, anonymous, username } = req.body
-            var comment = new Comment({ anonymous, authorName: username, content, author: _user._id, movie: req.params.id, vote: { up: 0, down: 0}});
+            var comment = new Comment({ anonymous, authorName: username, content, author: result[1]._id, movie: req.params.id, vote: { up: 0, down: 0}});
             comment.save().then((_comment) => {
-                _user.comments.push(_comment._id);
-                movies.comments.push(_comment._id);
-                _user.save();
-                movies.save();
+                result[1].comments.push(_comment._id);
+                result[0].comments.push(_comment._id);
+                result[1].save();
+                result[0].save();
                 res.status(201).send(_comment);
             });
-        })});
+        });
     } catch (error) {
         next(error);
     }

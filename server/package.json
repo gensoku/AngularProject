@@ -11,6 +11,7 @@
         "test": "jest --forceExit --coverage --verbose"
     },
     "dependencies": {
+        "@types/http-errors": "^1.8.0",
         "@types/passport-http": "^0.3.8",
         "async": "^3.2.0",
         "bcrypt-nodejs": "^0.0.3",
@@ -25,6 +26,7 @@
         "express-flash": "0.0.2",
         "express-session": "^1.17.1",
         "express-validator": "^6.6.1",
+        "http-errors": "^1.8.0",
         "lodash": "^4.17.19",
         "lusca": "^1.6.1",
         "mongoose": "^5.9.27",
